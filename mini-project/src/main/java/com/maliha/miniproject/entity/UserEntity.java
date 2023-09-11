@@ -16,6 +16,8 @@ public class UserEntity {
     private String password;
     private String address;
     private String role;
+    @OneToMany
+    private List<BorrowBookEntity> borrowBookEntityList;
 
     public UserEntity() {
     }
