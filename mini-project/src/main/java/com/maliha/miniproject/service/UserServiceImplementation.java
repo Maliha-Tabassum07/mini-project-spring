@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class UserServiceImplementation implements UserService{
@@ -18,9 +20,11 @@ public class UserServiceImplementation implements UserService{
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private ModelMapper modelMapper;
+
     @Override
     public User createUser(User user) throws Exception {
-        ModelMapper modelMapper = new ModelMapper();
+        modelMapper = new ModelMapper();
         if(userRepository.findByEmail(user.getEmail()).isPresent())
             throw new Exception("Record already exists");
         UserEntity userEntity = new UserEntity();
@@ -32,5 +36,12 @@ public class UserServiceImplementation implements UserService{
         UserEntity storedUserDetails =userRepository.save(userEntity);
         User returnedValue = modelMapper.map(storedUserDetails,User.class);
         return returnedValue;
+    }
+    @Override
+    public User getUserById(Integer id)throws NullPointerException{
+        if (userRepository.existsById(id)){
+            return modelMapper.map(userRepository.findById(id),User.class);
+        }
+        else throw new NullPointerException();
     }
 }

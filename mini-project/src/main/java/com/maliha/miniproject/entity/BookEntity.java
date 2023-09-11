@@ -18,15 +18,20 @@ public class BookEntity {
     @OneToMany
     private List<BorrowBookEntity> borrowBookEntityList;
 
+    @OneToMany
+    private List<ReviewBookEntity> reviewBookEntityList;
+
     public BookEntity() {
     }
 
-    public BookEntity(Integer book_id, String name, String author, String available, String description) {
+    public BookEntity(Integer book_id, String name, String author, String available, String description,List<BorrowBookEntity> borrowBookEntityList,List<ReviewBookEntity> reviewBookEntityList) {
         this.book_id = book_id;
         this.name = name;
         this.author = author;
         this.available = available;
         this.description = description;
+        this.borrowBookEntityList=borrowBookEntityList;
+        this.reviewBookEntityList=reviewBookEntityList;
     }
 
     public Integer getBook_id() {
@@ -67,5 +72,21 @@ public class BookEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<BorrowBookEntity> getBorrowBookEntityList() {
+        return borrowBookEntityList;
+    }
+
+    public void setBorrowBookEntityList(List<BorrowBookEntity> borrowBookEntityList) {
+        this.borrowBookEntityList = borrowBookEntityList;
+    }
+
+    public List<ReviewBookEntity> getReviewBookEntityList() {
+        return reviewBookEntityList;
+    }
+
+    public void setReviewBookEntityList(List<ReviewBookEntity> reviewBookEntityList) {
+        this.reviewBookEntityList = reviewBookEntityList;
     }
 }

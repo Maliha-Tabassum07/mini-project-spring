@@ -19,10 +19,13 @@ public class UserEntity {
     @OneToMany
     private List<BorrowBookEntity> borrowBookEntityList;
 
+    @OneToMany
+    private List<ReviewBookEntity> reviewBookEntityList;
+
     public UserEntity() {
     }
 
-    public UserEntity(Integer user_id, String firstName, String lastName, String email, String password, String address,  String role) {
+    public UserEntity(Integer user_id, String firstName, String lastName, String email, String password, String address,  String role,List<BorrowBookEntity> borrowBookEntityList,List<ReviewBookEntity> reviewBookEntityList) {
         this.user_id = user_id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,6 +33,8 @@ public class UserEntity {
         this.password = password;
         this.address = address;
         this.role = role;
+        this.borrowBookEntityList=borrowBookEntityList;
+        this.reviewBookEntityList=reviewBookEntityList;
     }
 
     public Integer getUser_id() {
@@ -86,5 +91,21 @@ public class UserEntity {
 
     public void setRole( String role) {
         this.role = role;
+    }
+
+    public List<BorrowBookEntity> getBorrowBookEntityList() {
+        return borrowBookEntityList;
+    }
+
+    public void setBorrowBookEntityList(List<BorrowBookEntity> borrowBookEntityList) {
+        this.borrowBookEntityList = borrowBookEntityList;
+    }
+
+    public List<ReviewBookEntity> getReviewBookEntityList() {
+        return reviewBookEntityList;
+    }
+
+    public void setReviewBookEntityList(List<ReviewBookEntity> reviewBookEntityList) {
+        this.reviewBookEntityList = reviewBookEntityList;
     }
 }

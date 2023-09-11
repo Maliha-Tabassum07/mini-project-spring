@@ -1,5 +1,7 @@
 package com.maliha.miniproject.entity;
 
+import jakarta.persistence.ManyToOne;
+
 public class ReviewBookEntity {
     private Integer review_id;
     private String review;
