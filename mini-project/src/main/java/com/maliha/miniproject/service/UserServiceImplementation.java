@@ -2,14 +2,13 @@ package com.maliha.miniproject.service;
 
 import com.maliha.miniproject.entity.UserEntity;
 import com.maliha.miniproject.model.User;
+import com.maliha.miniproject.model.UserRole;
 import com.maliha.miniproject.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,12 +24,12 @@ public class UserServiceImplementation implements UserService{
     @Override
     public User createUser(User user) throws Exception {
         modelMapper = new ModelMapper();
-        if(userRepository.findByEmail(user.getEmail()).isPresent())
+        if(userRepository.findById(user.getUserId()).isPresent())
             throw new Exception("Record already exists");
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(user.getEmail());
         userEntity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userEntity.setRole("ROLE_CUSTOMER");
+        userEntity.setRole(UserRole.CUSTOMER.name());
 //        String publicUserId = JWTUtils.generateUserID(10);
 //        userEntity.setUser_id(publicUserId);
         UserEntity storedUserDetails =userRepository.save(userEntity);
@@ -44,4 +43,5 @@ public class UserServiceImplementation implements UserService{
         }
         else throw new NullPointerException();
     }
+
 }

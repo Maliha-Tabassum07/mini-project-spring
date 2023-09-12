@@ -2,47 +2,55 @@ package com.maliha.miniproject.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 @Entity
 @Table(name = "user")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer user_id;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String address;
     private String role;
-    @OneToMany
-    private List<BorrowBookEntity> borrowBookEntityList;
-
-    @OneToMany
-    private List<ReviewBookEntity> reviewBookEntityList;
+//    @OneToMany
+//    private List<BorrowBookEntity> borrowBookEntityList;
+//
+//    @OneToMany
+//    private List<ReviewBookEntity> reviewBookEntityList;
 
     public UserEntity() {
     }
-
-    public UserEntity(Integer user_id, String firstName, String lastName, String email, String password, String address,  String role,List<BorrowBookEntity> borrowBookEntityList,List<ReviewBookEntity> reviewBookEntityList) {
-        this.user_id = user_id;
+    public UserEntity(Integer userId, String firstName, String lastName, String email, String password, String address) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.address = address;
-        this.role = role;
-        this.borrowBookEntityList=borrowBookEntityList;
-        this.reviewBookEntityList=reviewBookEntityList;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+//    public UserEntity(Integer user_id, String firstName, String lastName, String email, String password, String address,  String role,List<BorrowBookEntity> borrowBookEntityList,List<ReviewBookEntity> reviewBookEntityList) {
+//        this.user_id = user_id;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.email = email;
+//        this.password = password;
+//        this.address = address;
+//        this.role = role;
+//        this.borrowBookEntityList=borrowBookEntityList;
+//        this.reviewBookEntityList=reviewBookEntityList;
+//    }
+
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -93,19 +101,19 @@ public class UserEntity {
         this.role = role;
     }
 
-    public List<BorrowBookEntity> getBorrowBookEntityList() {
-        return borrowBookEntityList;
-    }
-
-    public void setBorrowBookEntityList(List<BorrowBookEntity> borrowBookEntityList) {
-        this.borrowBookEntityList = borrowBookEntityList;
-    }
-
-    public List<ReviewBookEntity> getReviewBookEntityList() {
-        return reviewBookEntityList;
-    }
-
-    public void setReviewBookEntityList(List<ReviewBookEntity> reviewBookEntityList) {
-        this.reviewBookEntityList = reviewBookEntityList;
-    }
+//    public List<BorrowBookEntity> getBorrowBookEntityList() {
+//        return borrowBookEntityList;
+//    }
+//
+//    public void setBorrowBookEntityList(List<BorrowBookEntity> borrowBookEntityList) {
+//        this.borrowBookEntityList = borrowBookEntityList;
+//    }
+//
+//    public List<ReviewBookEntity> getReviewBookEntityList() {
+//        return reviewBookEntityList;
+//    }
+//
+//    public void setReviewBookEntityList(List<ReviewBookEntity> reviewBookEntityList) {
+//        this.reviewBookEntityList = reviewBookEntityList;
+//    }
 }

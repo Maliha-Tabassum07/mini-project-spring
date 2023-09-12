@@ -1,9 +1,7 @@
 package com.maliha.miniproject.model;
 
-import java.util.List;
-
 public class User {
-    private Integer user_id;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -13,8 +11,8 @@ public class User {
     public User() {
     }
 
-    public User(Integer user_id, String firstName, String lastName, String email, String password, String address) {
-        this.user_id = user_id;
+    public User(Integer userId, String firstName, String lastName, String email, String password, String address) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -22,12 +20,12 @@ public class User {
         this.address = address;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {

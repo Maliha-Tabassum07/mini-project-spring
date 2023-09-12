@@ -1,61 +1,72 @@
 package com.maliha.miniproject.entity;
 
-import java.util.Date;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "borrow_book")
 public class BorrowBookEntity {
-    private Integer borrow_id;
-    private Integer book_id;
-    private Integer user_id;
-    private Date due_date;
-    private Date return_date;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer borrowId;
+    private LocalDate dueDate;
+    private LocalDate returnDate;
+    @ManyToOne
+    private BookEntity book;
+
+    @ManyToOne
+    private UserEntity user;
     public BorrowBookEntity() {
     }
 
-    public BorrowBookEntity(Integer borrow_id, Integer book_id, Integer user_id, Date due_date, Date return_date) {
-        this.borrow_id = borrow_id;
-        this.book_id = book_id;
-        this.user_id = user_id;
-        this.due_date = due_date;
-        this.return_date = return_date;
+    public BorrowBookEntity(Integer borrowId, LocalDate dueDate, LocalDate returnDate, BookEntity book, UserEntity user) {
+        this.borrowId = borrowId;
+        this.dueDate = dueDate;
+        this.returnDate = returnDate;
+        this.book = book;
+        this.user = user;
     }
 
-    public Integer getBorrow_id() {
-        return borrow_id;
+
+    public Integer getBorrowId() {
+        return borrowId;
     }
 
-    public void setBorrow_id(Integer borrow_id) {
-        this.borrow_id = borrow_id;
+    public void setBorrowId(Integer borrowId) {
+        this.borrowId = borrowId;
     }
 
-    public Integer getBook_id() {
-        return book_id;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public LocalDate getReturnDate() {
+        return returnDate;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
     }
 
-    public Date getDue_date() {
-        return due_date;
+    public BookEntity getBook() {
+        return book;
     }
 
-    public void setDue_date(Date due_date) {
-        this.due_date = due_date;
+    public void setBook(BookEntity book) {
+        this.book = book;
     }
 
-    public Date getReturn_date() {
-        return return_date;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setReturn_date(Date return_date) {
-        this.return_date = return_date;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

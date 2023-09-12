@@ -1,31 +1,38 @@
 package com.maliha.miniproject.entity;
 
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "review_book")
 public class ReviewBookEntity {
-    private Integer review_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer reviewId;
     private String review;
     private float ratings;
-    private Integer book_id;
-    private Integer user_id;
+    @ManyToOne
+    private BookEntity book;
+
+    @ManyToOne
+    private UserEntity user;
 
     public ReviewBookEntity() {
     }
 
-    public ReviewBookEntity(Integer review_id, String review, float ratings, Integer book_id, Integer user_id) {
-        this.review_id = review_id;
+    public ReviewBookEntity(Integer reviewId, String review, float ratings, BookEntity book, UserEntity user) {
+        this.reviewId = reviewId;
         this.review = review;
         this.ratings = ratings;
-        this.book_id = book_id;
-        this.user_id = user_id;
+        this.book = book;
+        this.user = user;
     }
 
-    public Integer getReview_id() {
-        return review_id;
+    public Integer getReviewId() {
+        return reviewId;
     }
 
-    public void setReview_id(Integer review_id) {
-        this.review_id = review_id;
+    public void setReviewId(Integer reviewId) {
+        this.reviewId = reviewId;
     }
 
     public String getReview() {
@@ -44,19 +51,19 @@ public class ReviewBookEntity {
         this.ratings = ratings;
     }
 
-    public Integer getBook_id() {
-        return book_id;
+    public BookEntity getBook() {
+        return book;
     }
 
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
+    public void setBook(BookEntity book) {
+        this.book = book;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

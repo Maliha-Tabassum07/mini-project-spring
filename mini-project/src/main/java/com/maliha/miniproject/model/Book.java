@@ -1,7 +1,7 @@
 package com.maliha.miniproject.model;
 
 public class Book {
-    private Integer book_id;
+    private Integer bookId;
     private String name;
     private String author;
     private String available;
@@ -10,20 +10,20 @@ public class Book {
     public Book() {
     }
 
-    public Book(Integer book_id, String name, String author, String available, String description) {
-        this.book_id = book_id;
+    public Book(Integer bookId, String name, String author, String available, String description) {
+        this.bookId = bookId;
         this.name = name;
         this.author = author;
         this.available = available;
         this.description = description;
     }
 
-    public Integer getBook_id() {
-        return book_id;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public String getName() {

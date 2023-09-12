@@ -9,7 +9,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static com.maliha.miniproject.model.UserRole.ADMIN;
+import static com.maliha.miniproject.model.UserRole.CUSTOMER;
 
 @Configuration
 @EnableWebSecurity
@@ -28,10 +32,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->{
                     auth
                             .requestMatchers(HttpMethod.POST, "/user/register","/user/login").permitAll()
+                            .requestMatchers("").hasRole(ADMIN.name())
                             .anyRequest().authenticated();
 
     });
         return http.build();
+    }
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 
