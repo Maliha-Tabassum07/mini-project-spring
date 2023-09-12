@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,7 +20,7 @@ public class BorrowBookController {
         return new ResponseEntity<BorrowBook>(borrowBookService.borrowBook(bookId),HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/books/{bookId}/return")
+    @PutMapping("/books/{bookId}/return")
     public Boolean returnBook(@PathVariable Integer bookId){
         if(borrowBookService.returnBook(bookId))
             return true;

@@ -25,7 +25,7 @@ public class ReviewBookController {
     }
 
     @PutMapping("/books/{bookId}/reviews/{reviewId}/update")
-    public Boolean updateReview(@RequestBody ReviewBook reviewBook, @PathVariable Integer bookId){
+    public ResponseEntity<ReviewBook> updateReview(@RequestBody ReviewBook reviewBook, @PathVariable("bookId") Integer bookId,@PathVariable("reviewId") Integer reviewId ){
         return null;
     }
 
