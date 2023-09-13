@@ -22,19 +22,24 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+
         try {
-            UserLoginModel creds = new ObjectMapper().readValue(request.getInputStream(), UserLoginModel.class);
+            UserLoginModel credential = new ObjectMapper().readValue(request.getInputStream(), UserLoginModel.class);
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(creds.getEmail(),creds.getPassword())
+                    new UsernamePasswordAuthenticationToken(credential.getEmail(),credential.getPassword())
             );
         } catch (IOException e) {
-            log.info("Exception occured at attemptAuthentication method: {}",e.getLocalizedMessage());
+            log.info("Exception occurred at attemptAuthentication method: {}",e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
@@ -42,12 +47,31 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String user = ((User)authResult.getPrincipal()).getUsername();
-
         String accessToken = JWTUtils.generateToken(user);
-        UserService userService = (UserService) MiniProjectContext.getBean("userServiceImpl");
+        UserService userService = (UserService) MiniProjectContext.getBean("userServiceImplementation");
         UserDto userDto = userService.getUser(user);
-        response.addHeader("userId",userDto.getEmail());
-        response.addHeader(AppConstants.HEADER_STRING, AppConstants.TOKEN_PREFIX+accessToken);
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("userId", userDto.getUserId());
+        responseBody.put("email", userDto.getEmail());
+        responseBody.put(AppConstants.HEADER_STRING, AppConstants.TOKEN_PREFIX + accessToken);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseBodyJson = objectMapper.writeValueAsString(responseBody);
+        response.setContentType("application/json");
+        response.getWriter().write(responseBodyJson);
+
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Authentication failed");
+        errorResponse.put("message", "Invalid email or password");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String errorResponseJson = objectMapper.writeValueAsString(errorResponse);
+        response.getWriter().write(errorResponseJson);
     }
 
 }

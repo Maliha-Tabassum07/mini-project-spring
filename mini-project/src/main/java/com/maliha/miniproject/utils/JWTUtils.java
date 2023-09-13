@@ -12,6 +12,8 @@ import java.util.Random;
 
 @Component
 public class JWTUtils {
+
+
     private static final Random RANDOM = new SecureRandom();
     private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static Boolean hasTokenExpired(String token){
@@ -29,6 +31,13 @@ public class JWTUtils {
                 .compact();
     }
 
+    public static String generateUserID(int length){
+        return generateRandomString(length);
+    }
+
+    public static String generateBookID(int length){
+        return generateRandomString(length);
+    }
 
     private static String generateRandomString(int length){
         StringBuilder returnValue = new StringBuilder(length);
@@ -40,4 +49,7 @@ public class JWTUtils {
     public static String extractUser(String token) {
         return Jwts.parser().setSigningKey(AppConstants.TOKEN_SECRET).parseClaimsJws(token).getBody().getSubject();
     }
+
+
+
 }
