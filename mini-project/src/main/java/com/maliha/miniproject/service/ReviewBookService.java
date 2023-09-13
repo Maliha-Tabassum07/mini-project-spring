@@ -1,12 +1,17 @@
 package com.maliha.miniproject.service;
 
+import com.maliha.miniproject.entity.BookEntity;
 import com.maliha.miniproject.entity.ReviewBookEntity;
+import com.maliha.miniproject.entity.UserEntity;
 import com.maliha.miniproject.model.BorrowBook;
 import com.maliha.miniproject.model.ReviewBook;
 import com.maliha.miniproject.repository.BookRepository;
 import com.maliha.miniproject.repository.ReviewBookRepository;
+import com.maliha.miniproject.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -18,11 +23,15 @@ public class ReviewBookService {
 
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    UserRepository userRepository;
 
     ModelMapper modelMapper=new ModelMapper();
 
     public ReviewBook getReviews(Integer bookId){
-        return modelMapper.map(reviewBookRepository.findByBookBookId(bookId).orElseThrow(()-> new NullPointerException()), ReviewBook.class);
+        BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException());
+        System.out.println(bookEntity.getAvailable());
+        return modelMapper.map(reviewBookRepository.findByBook(bookEntity).orElseThrow(()-> new NullPointerException()), ReviewBook.class);
     }
 
     public ReviewBook createReview(ReviewBook reviewBook, Integer bookId){
@@ -30,17 +39,28 @@ public class ReviewBookService {
         reviewBookEntity.setReview(reviewBook.getReview());
         reviewBookEntity.setRatings(reviewBook.getRatings());
         reviewBookEntity.setBook(bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException()));
-        //setUser
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity userEntity = userRepository.findByEmail(authentication.getName()).orElseThrow(()->new NullPointerException());
+        reviewBookEntity.setUser(userEntity);
         return modelMapper.map(reviewBookRepository.save(reviewBookEntity), ReviewBook.class);
     }
 
     public ReviewBook updateReviewBook(ReviewBook reviewBook, Integer bookId, Integer reviewId){
         ReviewBookEntity reviewBookEntity=reviewBookRepository.findById(reviewId).orElseThrow(()->new RuntimeException());
-        return null;
+        reviewBookEntity.setReview(reviewBook.getReview());
+        reviewBookEntity.setRatings(reviewBook.getRatings());
+        ReviewBookEntity savedBook=reviewBookRepository.save(reviewBookEntity);
+
+        return modelMapper.map(savedBook,ReviewBook.class);
     }
 
-    public Boolean deleteBook(){
-        return true;
+    public Boolean deleteBookReview(Integer bookId, Integer reviewId){
+        if(bookRepository.existsById(bookId)&&reviewBookRepository.existsById(reviewId)){
+            reviewBookRepository.deleteById(reviewId);
+            return true;
+        }
+        else
+            return false;
     }
 
 

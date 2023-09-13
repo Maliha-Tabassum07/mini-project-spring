@@ -1,8 +1,9 @@
 package com.maliha.miniproject.service;
 
-import com.maliha.miniproject.model.User;
+import com.maliha.miniproject.model.UserDto;
 
 public interface UserService {
-    User createUser(User user) throws Exception;
-    User getUserById(Integer id) throws NullPointerException;
+    UserDto createUser(UserDto userDto) throws Exception;
+    UserDto getUserById(Integer id) throws NullPointerException;
+    UserDto getUser(String email);
 }

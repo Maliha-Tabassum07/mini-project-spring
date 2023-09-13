@@ -1,5 +1,6 @@
 package com.maliha.miniproject.repository;
 
+import com.maliha.miniproject.entity.BookEntity;
 import com.maliha.miniproject.entity.BorrowBookEntity;
 import com.maliha.miniproject.entity.ReviewBookEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import java.util.Optional;
 @Repository
 
 public interface ReviewBookRepository extends JpaRepository<ReviewBookEntity,Integer> {
-    Optional<ReviewBookEntity> findByBookBookId(Integer bookId);
+    Optional<ReviewBookEntity> findByBook(BookEntity book);
 
 
 }

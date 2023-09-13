@@ -22,9 +22,6 @@ public class BorrowBookController {
 
     @PutMapping("/books/{bookId}/return")
     public Boolean returnBook(@PathVariable Integer bookId){
-        if(borrowBookService.returnBook(bookId))
-            return true;
-        else
-            return false;
+          return borrowBookService.returnBook(bookId);
     }
 }

@@ -2,7 +2,6 @@ package com.maliha.miniproject.controller;
 
 import com.maliha.miniproject.entity.BookEntity;
 import com.maliha.miniproject.model.Book;
-import com.maliha.miniproject.model.User;
 import com.maliha.miniproject.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,9 @@ public class BookController {
     }
 
     @PutMapping("/update/book")
-    public boolean updateBook(@RequestBody Book book) throws NullPointerException{
-        bookService.updateBook(book);
-        return true;
+    public ResponseEntity<Book> updateBook(@RequestBody Book book) throws NullPointerException{
+        return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.ACCEPTED);
+
     }
 
     @GetMapping("/books/all")
@@ -33,9 +32,8 @@ public class BookController {
     }
 
     @DeleteMapping("/books/delete/{bookId}")
-    public boolean deleteBook(@RequestBody Integer bookId) throws NullPointerException{
-        bookService.deleteBook(bookId);
-        return true;
+    public boolean deleteBook(@PathVariable Integer bookId) throws NullPointerException{
+        return bookService.deleteBook(bookId);
     }
 
 

@@ -4,17 +4,15 @@ public class Book {
     private Integer bookId;
     private String name;
     private String author;
-    private String available;
     private String description;
 
     public Book() {
     }
 
-    public Book(Integer bookId, String name, String author, String available, String description) {
+    public Book(Integer bookId, String name, String author, String description) {
         this.bookId = bookId;
         this.name = name;
         this.author = author;
-        this.available = available;
         this.description = description;
     }
 
@@ -42,13 +40,13 @@ public class Book {
         this.author = author;
     }
 
-    public String getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(String available) {
-        this.available = available;
-    }
+//    public String getAvailable() {
+//        return available;
+//    }
+//
+//    public void setAvailable(String available) {
+//        this.available = available;
+//    }
 
     public String getDescription() {
         return description;

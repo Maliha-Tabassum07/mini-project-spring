@@ -1,6 +1,6 @@
 package com.maliha.miniproject.model;
 
-public class User {
+public class UserDto {
     private Integer userId;
     private String firstName;
     private String lastName;
@@ -8,10 +8,10 @@ public class User {
     private String password;
     private String address;
 
-    public User() {
+    public UserDto() {
     }
 
-    public User(Integer userId, String firstName, String lastName, String email, String password, String address) {
+    public UserDto(String firstName, String lastName, String email, String password, String address) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;

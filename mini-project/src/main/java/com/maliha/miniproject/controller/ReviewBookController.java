@@ -15,23 +15,22 @@ public class ReviewBookController {
 
     @GetMapping("/books/{bookId}/reviews")
     public ResponseEntity<ReviewBook> getReview(@PathVariable Integer bookId){
-//        return new ResponseEntity<BorrowBook>(borrowBookService.borrowBook(bookId), HttpStatus.ACCEPTED);
-        return null;
+        return new ResponseEntity<ReviewBook>(reviewBookService.getReviews(bookId), HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/books/{bookId}/reviews/create")
     public ResponseEntity<ReviewBook> createReview(@RequestBody ReviewBook reviewBook, @PathVariable Integer bookId ){
-        return null;
+        return new ResponseEntity<ReviewBook>(reviewBookService.createReview(reviewBook,bookId), HttpStatus.CREATED);
     }
 
     @PutMapping("/books/{bookId}/reviews/{reviewId}/update")
     public ResponseEntity<ReviewBook> updateReview(@RequestBody ReviewBook reviewBook, @PathVariable("bookId") Integer bookId,@PathVariable("reviewId") Integer reviewId ){
-        return null;
+        return new ResponseEntity<ReviewBook>(reviewBookService.updateReviewBook(reviewBook,bookId,reviewId), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/books/{bookId}/reviews/{reviewId}/delete")
-    public Boolean deleteReview(@PathVariable Integer bookId){
-        return null;
+    public Boolean deleteReview(@PathVariable("bookId") Integer bookId,@PathVariable("reviewId") Integer reviewId){
+        return reviewBookService.deleteBookReview(bookId,reviewId);
     }
 
 }

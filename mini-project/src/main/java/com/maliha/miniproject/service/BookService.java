@@ -21,27 +21,32 @@ public class BookService {
         BookEntity bookEntity = new BookEntity();
         bookEntity.setName(book.getName());
         bookEntity.setAuthor(book.getAuthor());
-        bookEntity.setAvailable(book.getAvailable());
+        bookEntity.setAvailable("available");
         bookEntity.setDescription(book.getDescription());
         BookEntity storedBookDetails = bookRepository.save(bookEntity);
         Book returnedValue = modelMapper.map(storedBookDetails, Book.class);
         return returnedValue;
     }
 
-    public Book updateBook(Book updatedBook) throws NullPointerException {
-        BookEntity updatedBookEntity = modelMapper.map(updatedBook, BookEntity.class);
-        if (bookRepository.existsById(updatedBookEntity.getBookId()) && bookRepository.findById(updatedBookEntity.getBookId()).get().getAvailable() == "Available") {
-            return modelMapper.map(bookRepository.save(updatedBookEntity), Book.class);
-        } else throw new NullPointerException();
+    public Book updateBook(Book updatedBook) throws RuntimeException {
+        BookEntity updatedBookEntity = bookRepository.findById(updatedBook.getBookId()).orElseThrow(()->new NullPointerException());
+        if (updatedBookEntity.getAvailable().equals("available") ) {
+            updatedBookEntity.setName(updatedBook.getName());
+            updatedBookEntity.setDescription(updatedBook.getDescription());
+            updatedBookEntity.setAuthor(updatedBook.getAuthor());
+            return modelMapper.map(bookRepository.save(updatedBookEntity),Book.class);
+        } else {throw new RuntimeException();
+        }
     }
 
     public boolean deleteBook(Integer bookId) throws NullPointerException {
         BookEntity deleteBook = bookRepository.findById(bookId).orElseThrow(() -> new NullPointerException());
-        if (deleteBook.getAvailable().equals("Borrowed") && deleteBook.getAvailable().equals("Deleted")) {
-            return false;
-        } else {
-            deleteBook.setAvailable("Deleted");
+        if (deleteBook.getAvailable().equals("available")) {
+            deleteBook.setAvailable("deleted");
+            bookRepository.save(deleteBook);
             return true;
+        } else {
+            return false;
         }
     }
 
