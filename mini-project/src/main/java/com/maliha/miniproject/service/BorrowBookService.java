@@ -33,7 +33,8 @@ public class BorrowBookService {
     public BorrowBook borrowBook(Integer bookId)throws NullPointerException{
         BorrowBookEntity borrowBookEntity = new BorrowBookEntity();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity userEntity = userRepository.findByEmail(authentication.getName()).orElseThrow(()->new NullPointerException());
+//        UserEntity userEntity = userRepository.findByEmail(authentication.getName()).orElseThrow(()->new NullPointerException());
+
         BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(() -> new NullPointerException());
         if(bookEntity.getAvailable().equals("borrowed")&&bookEntity.getAvailable().equals("deleted")){
             throw new NullPointerException();
@@ -42,7 +43,7 @@ public class BorrowBookService {
           bookEntity.setAvailable("borrowed");
             bookRepository.save(bookEntity);
             borrowBookEntity.setDueDate(LocalDate.now().plusDays(7));
-            borrowBookEntity.setUser(userEntity);
+//            borrowBookEntity.setUser(userEntity);
             borrowBookEntity.setBook(bookEntity);
             return modelMapper.map(borrowBookRepository.save(borrowBookEntity),BorrowBook.class);
         }
