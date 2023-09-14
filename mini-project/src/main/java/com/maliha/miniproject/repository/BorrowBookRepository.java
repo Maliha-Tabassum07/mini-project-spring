@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface BorrowBookRepository extends JpaRepository<BorrowBookEntity,Integer> {
         Optional<BorrowBookEntity> findByBook(BookEntity book);
+
+        Optional<BorrowBookEntity> findAllByUserEntity(UserEntity userEntity);
 }

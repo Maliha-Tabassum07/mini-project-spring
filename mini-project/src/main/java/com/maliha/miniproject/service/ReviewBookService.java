@@ -26,12 +26,11 @@ public class ReviewBookService {
     @Autowired
     UserRepository userRepository;
 
-    ModelMapper modelMapper=new ModelMapper();
 
     public ReviewBook getReviews(Integer bookId){
         BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException());
         System.out.println(bookEntity.getAvailable());
-        return modelMapper.map(reviewBookRepository.findByBook(bookEntity).orElseThrow(()-> new NullPointerException()), ReviewBook.class);
+        return new ModelMapper().map(reviewBookRepository.findByBook(bookEntity).orElseThrow(()-> new NullPointerException()), ReviewBook.class);
     }
 
     public ReviewBook createReview(ReviewBook reviewBook, Integer bookId){
@@ -42,7 +41,7 @@ public class ReviewBookService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity userEntity = userRepository.findByEmail(authentication.getName()).orElseThrow(()->new NullPointerException());
         reviewBookEntity.setUser(userEntity);
-        return modelMapper.map(reviewBookRepository.save(reviewBookEntity), ReviewBook.class);
+        return new ModelMapper().map(reviewBookRepository.save(reviewBookEntity), ReviewBook.class);
     }
 
     public ReviewBook updateReviewBook(ReviewBook reviewBook, Integer bookId, Integer reviewId){
@@ -51,7 +50,7 @@ public class ReviewBookService {
         reviewBookEntity.setRatings(reviewBook.getRatings());
         ReviewBookEntity savedBook=reviewBookRepository.save(reviewBookEntity);
 
-        return modelMapper.map(savedBook,ReviewBook.class);
+        return new ModelMapper().map(savedBook,ReviewBook.class);
     }
 
     public Boolean deleteBookReview(Integer bookId, Integer reviewId){

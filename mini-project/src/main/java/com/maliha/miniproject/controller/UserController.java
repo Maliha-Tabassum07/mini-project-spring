@@ -4,7 +4,9 @@ import com.maliha.miniproject.constants.AppConstants;
 import com.maliha.miniproject.model.BorrowBook;
 import com.maliha.miniproject.model.UserDto;
 import com.maliha.miniproject.model.UserLoginModel;
+import com.maliha.miniproject.service.BorrowBookService;
 import com.maliha.miniproject.service.UserService;
+import com.maliha.miniproject.service.UserServiceImplementation;
 import com.maliha.miniproject.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserServiceImplementation userServiceImplementation;
+
+    @Autowired
+    private BorrowBookService borrowBookService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,14 +37,10 @@ public class UserController {
     @Autowired
     private JWTUtils jwtUtils;
 
-//    @PostMapping("/user/register")
-//    public ResponseEntity<UserDto> register (@RequestBody UserDto userDto) throws Exception {
-//        return new ResponseEntity<UserDto>(userService.createUser(userDto), HttpStatus.CREATED);
-//    }
-@PostMapping("/user/register")
+@PostMapping("/register")
 public ResponseEntity<?> register (@RequestBody UserDto userDto) {
     try {
-        UserDto createdUser = userService.createUser(userDto);
+        UserDto createdUser = userServiceImplementation.createUser(userDto);
         String accessToken = JWTUtils.generateToken(createdUser.getEmail());
         Map<String, Object> registerResponse = new HashMap<>();
         registerResponse.put("user", createdUser);
@@ -49,21 +51,11 @@ public ResponseEntity<?> register (@RequestBody UserDto userDto) {
     }
 }
 
-//    @PostMapping("/user/login")
-//    public String login (@RequestBody UserLoginModel userLoginModel) throws Exception {
-//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginModel.getEmail(), userLoginModel.getPassword()));
-//        if (authentication.isAuthenticated()) {
-//            return jwtUtils.generateToken(userLoginModel.getEmail());
-//        }
-//        else {
-//            throw new UsernameNotFoundException("invalid user request !");
-//        }
-//    }
-@PostMapping("/user/login")
+@PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpServletResponse response) {
     try {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginModel.getEmail(), userLoginModel.getPassword()));
-        UserDto userDto = userService.getUser(userLoginModel.getEmail());
+        UserDto userDto = userServiceImplementation.getUser(userLoginModel.getEmail());
         String accessToken = JWTUtils.generateToken(userDto.getEmail());
         Map<String, Object> loginResponse = new HashMap<>();
         loginResponse.put("userId", userDto.getUserId());
@@ -81,10 +73,10 @@ public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpS
 }
 
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/all/{userId}")
     public ResponseEntity<?> getUser(@PathVariable Integer userId){
         try {
-            return new ResponseEntity<UserDto>(userService.getUserById(userId),HttpStatus.OK);
+            return new ResponseEntity<UserDto>(userServiceImplementation.getUserById(userId),HttpStatus.OK);
 //            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -92,12 +84,12 @@ public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpS
 
     }
 
-    @GetMapping("/users/{userId}/books")
+    @GetMapping("/{userId}/books")
     public ResponseEntity<BorrowBook> getBorrowedBooks(){
         return null;
     }
 
-    @GetMapping("/users/{userId}/borrowed-books")
+    @GetMapping("/{userId}/borrowed-books")
     public ResponseEntity<BorrowBook> getAllBorrowedBooks(){
         return null;
     }

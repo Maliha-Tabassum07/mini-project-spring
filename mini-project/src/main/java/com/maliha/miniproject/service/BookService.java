@@ -11,8 +11,6 @@ import java.util.List;
 
 @Service
 public class BookService {
-    private ModelMapper modelMapper = new ModelMapper();
-    ;
 
     @Autowired
     BookRepository bookRepository;
@@ -24,7 +22,7 @@ public class BookService {
         bookEntity.setAvailable("available");
         bookEntity.setDescription(book.getDescription());
         BookEntity storedBookDetails = bookRepository.save(bookEntity);
-        Book returnedValue = modelMapper.map(storedBookDetails, Book.class);
+        Book returnedValue = new ModelMapper().map(storedBookDetails, Book.class);
         return returnedValue;
     }
 
@@ -34,7 +32,7 @@ public class BookService {
             updatedBookEntity.setName(updatedBook.getName());
             updatedBookEntity.setDescription(updatedBook.getDescription());
             updatedBookEntity.setAuthor(updatedBook.getAuthor());
-            return modelMapper.map(bookRepository.save(updatedBookEntity),Book.class);
+            return new ModelMapper().map(bookRepository.save(updatedBookEntity),Book.class);
         } else {throw new RuntimeException();
         }
     }
@@ -42,6 +40,8 @@ public class BookService {
     public boolean deleteBook(Integer bookId) throws NullPointerException {
         BookEntity deleteBook = bookRepository.findById(bookId).orElseThrow(() -> new NullPointerException());
         if (deleteBook.getAvailable().equals("available")) {
+            deleteBook.setName("Deleted book");
+            deleteBook.setAuthor("--");
             deleteBook.setAvailable("deleted");
             bookRepository.save(deleteBook);
             return true;

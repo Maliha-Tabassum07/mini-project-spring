@@ -26,13 +26,11 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private ModelMapper modelMapper;
+
 
     @Override
     public UserDto createUser(UserDto userDto) throws Exception {
-        modelMapper = new ModelMapper();
-//        if(userRepository.findById(user.getUserId()).isPresent())
-//            throw new Exception("Record already exists");
+
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDto.getEmail());
         userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
@@ -41,8 +39,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         userEntity.setLastName(userDto.getLastName());
         userEntity.setAddress(userDto.getAddress());
         UserEntity storedUserDetails = userRepository.save(userEntity);
-//        UserDto returnedValue = modelMapper.map(storedUserDetails, UserDto.class);
-        UserDto returnedValue = modelMapper.map(storedUserDetails,UserDto.class);
+        UserDto returnedValue = new ModelMapper().map(storedUserDetails,UserDto.class);
         String accessToken = JWTUtils.generateToken(userEntity.getEmail());
         returnedValue.setAccessToken(AppConstants.TOKEN_PREFIX + accessToken);
         return returnedValue;
@@ -53,7 +50,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         UserDto userDto= new UserDto();
         if (userRepository.existsById(id)){
             BeanUtils.copyProperties(userEntity.get(),userDto);
-            return modelMapper.map(userRepository.findById(id).orElseThrow(()->new NullPointerException("Id not available")), UserDto.class);
+            return new ModelMapper().map(userRepository.findById(id).orElseThrow(()->new NullPointerException("Id not available")), UserDto.class);
         }
         else throw new NullPointerException("");
     }

@@ -18,36 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager)throws Exception{
-//        http
-//                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-//                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(auth->{
-//                    auth
-//                            .requestMatchers(HttpMethod.POST, "/user/register","/user/login").permitAll()
-//                            .requestMatchers("").hasRole(ADMIN.name())
-//                            .anyRequest().authenticated();
-//
-//    })
-//                .addFilter(new CustomAuthenticationFilter(authenticationManager))
-//                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-//        ;
-//        return http.build();
-//    }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-@Bean
-public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
-}
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager)
@@ -58,23 +36,23 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration a
                 .authorizeHttpRequests(auth->{
                     auth
                             .requestMatchers(HttpMethod.POST, AppConstants.SIGN_IN,AppConstants.SIGN_UP).permitAll()
-//                            .requestMatchers(HttpMethod.GET,"/books/all").hasAnyRole("ADMIN", "CUSTOMER")
-//                            .requestMatchers(HttpMethod.POST,"/books/create").hasRole("ADMIN")
-//                            .requestMatchers(HttpMethod.PUT,"/books/update").hasRole("ADMIN")
-//                            .requestMatchers(HttpMethod.DELETE,"/books/delete").hasRole("ADMIN")
-//                            .requestMatchers(HttpMethod.GET,"/users/{userId}").hasRole("ADMIN")
-//                            .requestMatchers(HttpMethod.GET,"/books/{bookId}/borrow").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.GET,"/users/{userId}/books").hasAnyRole("ADMIN", "CUSTOMER")
-//                            .requestMatchers(HttpMethod.GET,"/books/{bookId}/return").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.GET,"/users/{userId}/borrowed-books").hasAnyRole("ADMIN", "CUSTOMER")
-//                            .requestMatchers(HttpMethod.GET,"/users/{userId}/history").hasAnyRole("ADMIN", "CUSTOMER")
-//                            .requestMatchers(HttpMethod.POST,"/books/{bookId}/reviews/create").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.PUT,"/books/{bookId}/reviews/{reviewId}/update").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.DELETE,"/books/{bookId}/reviews/{reviewId}/delete").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.POST,"/books/{bookId}/reserve").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.POST,"/books/{bookId}/cancel-reservation").hasRole("CUSTOMER")
-//                            .requestMatchers(HttpMethod.GET,"/books/{bookId}/reviews").hasRole("CUSTOMER")
-                            .anyRequest().permitAll();
+                            .requestMatchers(HttpMethod.GET,"/books/all").hasAnyRole("ADMIN", "CUSTOMER")
+                            .requestMatchers(HttpMethod.POST,"/books/create").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT,"/update/book").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE,"/books/delete").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,"/users/all/{userId}").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,"/books/{bookId}/borrow").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.GET,"/users/{userId}/books").hasAnyRole("ADMIN", "CUSTOMER")
+                            .requestMatchers(HttpMethod.GET,"/books/{bookId}/return").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.GET,"/users/{userId}/borrowed-books").hasAnyRole("ADMIN", "CUSTOMER")
+                            .requestMatchers(HttpMethod.GET,"/users/{userId}/history").hasAnyRole("ADMIN", "CUSTOMER")
+                            .requestMatchers(HttpMethod.POST,"/books/{bookId}/reviews/create").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.PUT,"/books/{bookId}/reviews/{reviewId}/update").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.DELETE,"/books/{bookId}/reviews/{reviewId}/delete").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.POST,"/books/{bookId}/reserve").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.POST,"/books/{bookId}/cancel-reservation").hasRole("CUSTOMER")
+                            .requestMatchers(HttpMethod.GET,"/books/{bookId}/reviews").hasRole("CUSTOMER")
+                            .anyRequest().authenticated();
                 })
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))
                 .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
