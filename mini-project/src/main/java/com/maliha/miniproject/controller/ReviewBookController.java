@@ -8,13 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ReviewBookController {
     @Autowired
     ReviewBookService reviewBookService;
     @GetMapping("/books/{bookId}/reviews")
-    public ResponseEntity<ReviewBook> getReview(@PathVariable Integer bookId){
-        return new ResponseEntity<ReviewBook>(reviewBookService.getReviews(bookId), HttpStatus.ACCEPTED);
+    public ResponseEntity<List<ReviewBook>> getReview(@PathVariable Integer bookId){
+        return new ResponseEntity<List<ReviewBook>>(reviewBookService.getReviews(bookId), HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/books/{bookId}/reviews/create")

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 
 public interface ReviewBookRepository extends JpaRepository<ReviewBookEntity,Integer> {
-    Optional<ReviewBookEntity> findByBook(BookEntity book);
+    Optional<List<ReviewBookEntity>> findAllByBook(BookEntity book);
 
 
 }

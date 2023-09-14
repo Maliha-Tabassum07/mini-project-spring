@@ -15,6 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ReviewBookService {
 
@@ -27,10 +30,12 @@ public class ReviewBookService {
     UserRepository userRepository;
 
 
-    public ReviewBook getReviews(Integer bookId){
-        BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException());
-        System.out.println(bookEntity.getAvailable());
-        return new ModelMapper().map(reviewBookRepository.findByBook(bookEntity).orElseThrow(()->new NullPointerException()), ReviewBook.class);
+    public List<ReviewBook> getReviews(Integer bookId){
+        List<ReviewBook> reviewBookList=new ArrayList<>();
+        for(ReviewBookEntity reviewBookEntity:reviewBookRepository.findAllByBook(bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException())).orElseThrow(()->new NullPointerException())){
+            reviewBookList.add(new ModelMapper().map(reviewBookEntity,ReviewBook.class));
+        }
+        return reviewBookList;
     }
 
     public ReviewBook createReview(ReviewBook reviewBook, Integer bookId){
