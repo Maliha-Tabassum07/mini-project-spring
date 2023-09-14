@@ -13,7 +13,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleNullPointerException(){
         return new ResponseEntity<>(new CustomException().getMessage(), HttpStatus.BAD_REQUEST);
     }
-
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<?> handleRuntimeException(){
         return new ResponseEntity<>(new CustomException("Cannot perform this action").getMessage(), HttpStatus.BAD_REQUEST);

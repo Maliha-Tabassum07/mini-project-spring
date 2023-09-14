@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,7 +37,7 @@ public class BorrowBookService {
         UserEntity userEntity = userRepository.findByEmail(authentication.getName()).orElseThrow(()->new NullPointerException());
 
         BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(() -> new NullPointerException());
-        if(bookEntity.getAvailable().equals("borrowed")&&bookEntity.getAvailable().equals("deleted")){
+        if(bookEntity.getAvailable().equals("borrowed")||bookEntity.getAvailable().equals("deleted")){
             throw new NullPointerException();
         }
         else {
@@ -62,5 +64,18 @@ public class BorrowBookService {
         else {
             return false;
         }
+    }
+    public List<BorrowBook> borrowBookAllWithUserId(Integer userId){
+        List<BorrowBook> borrowBookList=new ArrayList<>();
+        for(BorrowBookEntity borrowBookEntity:borrowBookRepository.findAllByUser(userRepository.findByUserId(userId).orElseThrow(() -> new NullPointerException())).orElseThrow(() -> new NullPointerException())){
+            borrowBookList.add(new ModelMapper().map(borrowBookEntity,BorrowBook.class));
+        }
+        return borrowBookList;
+    }
+    public List<BorrowBookEntity> getHistory(Integer userId){
+        return borrowBookRepository.findAllByUser(userRepository.findByUserId(userId).orElseThrow(() -> new NullPointerException())).orElseThrow(() -> new NullPointerException());
+    }
+    public List<BorrowBookEntity> getBorrowedBook(Integer userId){
+        return borrowBookRepository.findAllByUserAndReturnDateIsNull(userRepository.findByUserId(userId).orElseThrow(() -> new NullPointerException())).orElseThrow(() -> new NullPointerException());
     }
 }

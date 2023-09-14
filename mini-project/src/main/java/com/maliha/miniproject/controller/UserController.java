@@ -1,6 +1,7 @@
 package com.maliha.miniproject.controller;
 
 import com.maliha.miniproject.constants.AppConstants;
+import com.maliha.miniproject.entity.BorrowBookEntity;
 import com.maliha.miniproject.model.BorrowBook;
 import com.maliha.miniproject.model.UserDto;
 import com.maliha.miniproject.model.UserLoginModel;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,7 +40,7 @@ public class UserController {
     private JWTUtils jwtUtils;
 
 @PostMapping("/register")
-public ResponseEntity<?> register (@RequestBody UserDto userDto) {
+public ResponseEntity<?> register (@RequestBody UserDto userDto) throws RuntimeException{
     try {
         UserDto createdUser = userServiceImplementation.createUser(userDto);
         String accessToken = JWTUtils.generateToken(createdUser.getEmail());
@@ -46,8 +48,8 @@ public ResponseEntity<?> register (@RequestBody UserDto userDto) {
         registerResponse.put("user", createdUser);
         registerResponse.put(AppConstants.HEADER_STRING, AppConstants.TOKEN_PREFIX + accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(registerResponse);
-    } catch (Exception e) {
-        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    } catch (RuntimeException e) {
+        return new ResponseEntity<>("Cannot create user with this email",HttpStatus.BAD_REQUEST);
     }
 }
 
@@ -73,11 +75,10 @@ public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpS
 }
 
 
-    @GetMapping("/all/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getUser(@PathVariable Integer userId){
         try {
             return new ResponseEntity<UserDto>(userServiceImplementation.getUserById(userId),HttpStatus.OK);
-//            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -85,13 +86,19 @@ public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpS
     }
 
     @GetMapping("/{userId}/books")
-    public ResponseEntity<BorrowBook> getBorrowedBooks(){
-        return null;
+    public ResponseEntity<List<BorrowBook>> getAllBorrowedBooks(@PathVariable Integer userId){
+        return new ResponseEntity<List<BorrowBook>>(borrowBookService.borrowBookAllWithUserId(userId),HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/borrowed-books")
-    public ResponseEntity<BorrowBook> getAllBorrowedBooks(){
-        return null;
+    public ResponseEntity<List<BorrowBookEntity>> getBorrowedBooks(@PathVariable Integer userId){
+        return new ResponseEntity<List<BorrowBookEntity>>(borrowBookService.getBorrowedBook(userId),HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{userId}/history")
+    public ResponseEntity<List<BorrowBookEntity>> getHistory(@PathVariable Integer userId){
+        return new ResponseEntity<List<BorrowBookEntity>>(borrowBookService.getHistory(userId),HttpStatus.OK);
     }
 
 

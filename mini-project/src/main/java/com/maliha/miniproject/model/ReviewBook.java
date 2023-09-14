@@ -7,7 +7,6 @@ public class ReviewBook {
 
     public ReviewBook() {
     }
-
     public ReviewBook(Integer reviewId,String review, float ratings) {
         this.reviewId = reviewId;
         this.review = review;

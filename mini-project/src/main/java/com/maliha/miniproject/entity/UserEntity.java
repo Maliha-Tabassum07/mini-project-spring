@@ -15,11 +15,6 @@ public class UserEntity {
     private String password;
     private String address;
     private String role;
-//    @OneToMany
-//    private List<BorrowBookEntity> borrowBookEntityList;
-//
-//    @OneToMany
-//    private List<ReviewBookEntity> reviewBookEntityList;
 
     public UserEntity() {
     }
@@ -32,17 +27,6 @@ public class UserEntity {
         this.address = address;
     }
 
-//    public UserEntity(Integer user_id, String firstName, String lastName, String email, String password, String address,  String role,List<BorrowBookEntity> borrowBookEntityList,List<ReviewBookEntity> reviewBookEntityList) {
-//        this.user_id = user_id;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.email = email;
-//        this.password = password;
-//        this.address = address;
-//        this.role = role;
-//        this.borrowBookEntityList=borrowBookEntityList;
-//        this.reviewBookEntityList=reviewBookEntityList;
-//    }
 
 
     public Integer getUserId() {
@@ -101,19 +85,4 @@ public class UserEntity {
         this.role = role;
     }
 
-//    public List<BorrowBookEntity> getBorrowBookEntityList() {
-//        return borrowBookEntityList;
-//    }
-//
-//    public void setBorrowBookEntityList(List<BorrowBookEntity> borrowBookEntityList) {
-//        this.borrowBookEntityList = borrowBookEntityList;
-//    }
-//
-//    public List<ReviewBookEntity> getReviewBookEntityList() {
-//        return reviewBookEntityList;
-//    }
-//
-//    public void setReviewBookEntityList(List<ReviewBookEntity> reviewBookEntityList) {
-//        this.reviewBookEntityList = reviewBookEntityList;
-//    }
 }

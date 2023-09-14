@@ -40,7 +40,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.POST,"/books/create").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.PUT,"/update/book").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.DELETE,"/books/delete").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.GET,"/users/all/{userId}").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,"/users/{userId}").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET,"/books/{bookId}/borrow").hasRole("CUSTOMER")
                             .requestMatchers(HttpMethod.GET,"/users/{userId}/books").hasAnyRole("ADMIN", "CUSTOMER")
                             .requestMatchers(HttpMethod.GET,"/books/{bookId}/return").hasRole("CUSTOMER")

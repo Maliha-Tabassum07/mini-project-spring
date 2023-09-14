@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewBookController {
     @Autowired
     ReviewBookService reviewBookService;
-
     @GetMapping("/books/{bookId}/reviews")
     public ResponseEntity<ReviewBook> getReview(@PathVariable Integer bookId){
         return new ResponseEntity<ReviewBook>(reviewBookService.getReviews(bookId), HttpStatus.ACCEPTED);

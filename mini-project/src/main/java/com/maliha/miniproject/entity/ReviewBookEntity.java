@@ -12,7 +12,6 @@ public class ReviewBookEntity {
     private float ratings;
     @ManyToOne
     private BookEntity book;
-
     @ManyToOne
     private UserEntity user;
 

@@ -29,8 +29,11 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
 
 
     @Override
-    public UserDto createUser(UserDto userDto) throws Exception {
+    public UserDto createUser(UserDto userDto) throws RuntimeException {
+        if(userRepository.existsByEmail(userDto.getEmail())){
+            throw new RuntimeException();
 
+        }
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDto.getEmail());
         userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));

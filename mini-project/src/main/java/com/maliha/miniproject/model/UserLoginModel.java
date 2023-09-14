@@ -3,7 +3,6 @@ package com.maliha.miniproject.model;
 public class UserLoginModel {
     private String email;
     private String password;
-
     public UserLoginModel() {
     }
 

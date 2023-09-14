@@ -15,12 +15,10 @@ public class BorrowBookEntity {
     private LocalDate returnDate;
     @ManyToOne
     private BookEntity book;
-
     @ManyToOne
     private UserEntity user;
     public BorrowBookEntity() {
     }
-
     public BorrowBookEntity(Integer borrowId, LocalDate dueDate, LocalDate returnDate, BookEntity book, UserEntity user) {
         this.borrowId = borrowId;
         this.dueDate = dueDate;
@@ -28,7 +26,6 @@ public class BorrowBookEntity {
         this.book = book;
         this.user = user;
     }
-
 
     public Integer getBorrowId() {
         return borrowId;

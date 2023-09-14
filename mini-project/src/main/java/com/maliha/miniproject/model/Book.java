@@ -40,14 +40,6 @@ public class Book {
         this.author = author;
     }
 
-//    public String getAvailable() {
-//        return available;
-//    }
-//
-//    public void setAvailable(String available) {
-//        this.available = available;
-//    }
-
     public String getDescription() {
         return description;
     }

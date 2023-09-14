@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class BorrowBookController {
     @Autowired
     BorrowBookService borrowBookService;
-
     @PostMapping("/books/{bookId}/borrow")
     public ResponseEntity<BorrowBook> borrow(@PathVariable Integer bookId){
         return new ResponseEntity<BorrowBook>(borrowBookService.borrowBook(bookId),HttpStatus.ACCEPTED);
     }
-
     @PutMapping("/books/{bookId}/return")
     public Boolean returnBook(@PathVariable Integer bookId){
           return borrowBookService.returnBook(bookId);

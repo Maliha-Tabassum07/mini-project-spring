@@ -25,7 +25,6 @@ public class BookController {
         return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.ACCEPTED);
 
     }
-
     @GetMapping("/books/all")
     public List<BookEntity> getAllBook(){
        return bookService.getAllBooks();

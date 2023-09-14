@@ -30,7 +30,7 @@ public class ReviewBookService {
     public ReviewBook getReviews(Integer bookId){
         BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException());
         System.out.println(bookEntity.getAvailable());
-        return new ModelMapper().map(reviewBookRepository.findByBook(bookEntity).orElseThrow(()-> new NullPointerException()), ReviewBook.class);
+        return new ModelMapper().map(reviewBookRepository.findByBook(bookEntity).orElseThrow(()->new NullPointerException()), ReviewBook.class);
     }
 
     public ReviewBook createReview(ReviewBook reviewBook, Integer bookId){
