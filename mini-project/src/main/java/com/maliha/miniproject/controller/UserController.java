@@ -62,6 +62,7 @@ public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpS
         Map<String, Object> loginResponse = new HashMap<>();
         loginResponse.put("userId", userDto.getUserId());
         loginResponse.put("email", userDto.getEmail());
+        loginResponse.put("role",userDto.getRole());
         loginResponse.put(AppConstants.HEADER_STRING, AppConstants.TOKEN_PREFIX + accessToken);
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
 

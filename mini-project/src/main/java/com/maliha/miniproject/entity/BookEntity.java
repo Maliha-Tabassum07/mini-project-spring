@@ -13,14 +13,16 @@ public class BookEntity {
     private String author;
     private String available;
     private String description;
+    private String url;
     public BookEntity() {
     }
-public BookEntity(Integer bookId, String name, String author, String available, String description) {
+public BookEntity(Integer bookId, String name, String author, String available, String description, String url) {
     this.bookId = bookId;
     this.name = name;
     this.author = author;
     this.available = available;
     this.description = description;
+    this.url= url;
 }
 
     public Integer getBookId() {
@@ -63,4 +65,11 @@ public BookEntity(Integer bookId, String name, String author, String available, 
         this.description = description;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
