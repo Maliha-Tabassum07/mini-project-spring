@@ -42,10 +42,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->{
                     auth
                             .requestMatchers(HttpMethod.POST, AppConstants.SIGN_IN,AppConstants.SIGN_UP).permitAll()
-                            .requestMatchers(HttpMethod.GET,"/books/all").hasAnyRole("ADMIN", "CUSTOMER")
-                            .requestMatchers(HttpMethod.POST,"/books/create").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.PUT,"/update/book").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.DELETE,"/books/delete").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,"/book/all").hasAnyRole("ADMIN", "CUSTOMER")
+                            .requestMatchers(HttpMethod.POST,"/book/create").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.POST,"/users/all").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT,"/book/update").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE,"/book/delete/{bookId}").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET,"/users/{userId}").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET,"/books/{bookId}/borrow").hasRole("CUSTOMER")
                             .requestMatchers(HttpMethod.GET,"/users/{userId}/books").hasAnyRole("ADMIN", "CUSTOMER")

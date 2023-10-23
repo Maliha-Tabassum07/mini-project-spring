@@ -11,15 +11,17 @@ public class BookEntity {
     private Integer bookId;
     private String name;
     private String author;
+    private String genre;
     private String available;
     private String description;
     private String url;
     public BookEntity() {
     }
-public BookEntity(Integer bookId, String name, String author, String available, String description, String url) {
+public BookEntity(Integer bookId, String name, String author,String genre, String available, String description, String url) {
     this.bookId = bookId;
     this.name = name;
     this.author = author;
+    this.genre= genre;
     this.available = available;
     this.description = description;
     this.url= url;
@@ -71,5 +73,13 @@ public BookEntity(Integer bookId, String name, String author, String available, 
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

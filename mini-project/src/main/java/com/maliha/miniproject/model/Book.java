@@ -4,7 +4,9 @@ public class Book {
     private Integer bookId;
     private String name;
     private String author;
+    private String genre;
     private String description;
+    private String url;
 
     public Book() {
     }
@@ -46,5 +48,21 @@ public class Book {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

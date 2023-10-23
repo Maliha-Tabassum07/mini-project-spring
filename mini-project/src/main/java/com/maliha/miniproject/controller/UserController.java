@@ -1,7 +1,9 @@
 package com.maliha.miniproject.controller;
 
 import com.maliha.miniproject.constants.AppConstants;
+import com.maliha.miniproject.entity.BookEntity;
 import com.maliha.miniproject.entity.BorrowBookEntity;
+import com.maliha.miniproject.entity.UserEntity;
 import com.maliha.miniproject.model.BorrowBook;
 import com.maliha.miniproject.model.UserDto;
 import com.maliha.miniproject.model.UserLoginModel;
@@ -100,6 +102,10 @@ public ResponseEntity<?> login(@RequestBody UserLoginModel userLoginModel, HttpS
     @GetMapping("/{userId}/history")
     public ResponseEntity<List<BorrowBookEntity>> getHistory(@PathVariable Integer userId){
         return new ResponseEntity<List<BorrowBookEntity>>(borrowBookService.getHistory(userId),HttpStatus.OK);
+    }
+    @GetMapping("/all")
+    public List<UserEntity> getAllUser(){
+        return userServiceImplementation.getAllUser();
     }
 
 

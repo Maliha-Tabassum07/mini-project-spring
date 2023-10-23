@@ -6,7 +6,9 @@ import com.maliha.miniproject.repository.BookRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Service
@@ -21,6 +23,8 @@ public class BookService {
         bookEntity.setAuthor(book.getAuthor());
         bookEntity.setAvailable("available");
         bookEntity.setDescription(book.getDescription());
+        bookEntity.setGenre(book.getGenre());
+        bookEntity.setUrl(book.getUrl());
         BookEntity storedBookDetails = bookRepository.save(bookEntity);
         Book returnedValue = new ModelMapper().map(storedBookDetails, Book.class);
         return returnedValue;
@@ -42,6 +46,8 @@ public class BookService {
         if (deleteBook.getAvailable().equals("available")) {
             deleteBook.setName("Deleted book");
             deleteBook.setAuthor("--");
+            deleteBook.setGenre("--");
+            deleteBook.setGenre("--");
             deleteBook.setAvailable("deleted");
             bookRepository.save(deleteBook);
             return true;
@@ -51,6 +57,11 @@ public class BookService {
     }
 
     public List<BookEntity> getAllBooks() {
-        return bookRepository.findAll();
+        return bookRepository.findAllByAvailableNot("deleted").stream()
+                .sorted(Comparator.comparing(BookEntity::getName))
+                .collect(Collectors.toList());
+    }
+    public BookEntity getBookById(Integer bookId) {
+        return bookRepository.findById(bookId).orElseThrow(() -> new NullPointerException());
     }
 }

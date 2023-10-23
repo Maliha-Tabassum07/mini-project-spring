@@ -1,6 +1,7 @@
 package com.maliha.miniproject.service;
 
 import com.maliha.miniproject.constants.AppConstants;
+import com.maliha.miniproject.entity.BookEntity;
 import com.maliha.miniproject.entity.UserEntity;
 import com.maliha.miniproject.model.UserDto;
 import com.maliha.miniproject.repository.UserRepository;
@@ -16,7 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -37,7 +41,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDto.getEmail());
         userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        userEntity.setRole(userDto.getRole());
+        userEntity.setRole("CUSTOMER");
         userEntity.setFirstName(userDto.getFirstName());
         userEntity.setLastName(userDto.getLastName());
         userEntity.setAddress(userDto.getAddress());
@@ -70,6 +74,11 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         if(userEntity==null) throw new UsernameNotFoundException("User Email does not exists!");
         return new org.springframework.security.core.userdetails.User(userEntity.getEmail(),userEntity.getPassword(),
                 true,true,true, true,new ArrayList<>());
+    }
+    public List<UserEntity> getAllUser() {
+        return userRepository.findAll().stream()
+                .sorted(Comparator.comparing(UserEntity::getFirstName))
+                .collect(Collectors.toList());
     }
 
 }
