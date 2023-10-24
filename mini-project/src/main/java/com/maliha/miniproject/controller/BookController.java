@@ -24,7 +24,6 @@ public class BookController {
     @PutMapping("/update")
     public ResponseEntity<Book> updateBook(@RequestBody Book book) throws NullPointerException{
         return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.ACCEPTED);
-
     }
     @GetMapping("/all")
     public List<BookEntity> getAllBook(){

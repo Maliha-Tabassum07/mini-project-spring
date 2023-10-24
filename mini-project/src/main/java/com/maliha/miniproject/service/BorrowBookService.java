@@ -50,20 +50,18 @@ public class BorrowBookService {
         }
     }
 
-    public Boolean returnBook(Integer bookId){
+    public BorrowBookEntity returnBook(Integer bookId)throws NullPointerException{
         BookEntity bookEntity=bookRepository.findById(bookId).orElseThrow(() -> new NullPointerException());
         System.out.println("printing");
-        BorrowBookEntity borrowBookEntity=borrowBookRepository.findByBook(bookEntity).orElseThrow(() -> new NullPointerException());
+        BorrowBookEntity borrowBookEntity=borrowBookRepository.findByBookAndReturnDateIsNull(bookEntity).orElseThrow(() -> new NullPointerException());
         if(bookEntity.getAvailable().equals("borrowed")){
             bookEntity.setAvailable("available");
             bookRepository.save(bookEntity);
             borrowBookEntity.setReturnDate(LocalDate.now());
-            borrowBookRepository.save(borrowBookEntity);
-            return true;
+            return borrowBookRepository.save(borrowBookEntity);
+
         }
-        else {
-            return false;
-        }
+        throw new NullPointerException();
     }
     public List<BorrowBook> borrowBookAllWithUserId(Integer userId){
         List<BorrowBook> borrowBookList=new ArrayList<>();
