@@ -30,12 +30,12 @@ public class ReviewBookService {
     UserRepository userRepository;
 
 
-    public List<ReviewBook> getReviews(Integer bookId){
-        List<ReviewBook> reviewBookList=new ArrayList<>();
-        for(ReviewBookEntity reviewBookEntity:reviewBookRepository.findAllByBook(bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException())).orElseThrow(()->new NullPointerException())){
-            reviewBookList.add(new ModelMapper().map(reviewBookEntity,ReviewBook.class));
-        }
-        return reviewBookList;
+    public List<ReviewBookEntity> getReviews(Integer bookId){
+//        List<ReviewBook> reviewBookList=new ArrayList<>();
+//        for(ReviewBookEntity reviewBookEntity:reviewBookRepository.findAllByBook(bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException())).orElseThrow(()->new NullPointerException())){
+//            reviewBookList.add(new ModelMapper().map(reviewBookEntity,ReviewBook.class));
+//        }
+        return reviewBookRepository.findAllByBook(bookRepository.findById(bookId).orElseThrow(()-> new NullPointerException())).orElseThrow(()->new NullPointerException());
     }
 
     public ReviewBook createReview(ReviewBook reviewBook, Integer bookId){

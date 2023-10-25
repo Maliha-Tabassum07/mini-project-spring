@@ -1,5 +1,6 @@
 package com.maliha.miniproject.controller;
 
+import com.maliha.miniproject.entity.ReviewBookEntity;
 import com.maliha.miniproject.model.BorrowBook;
 import com.maliha.miniproject.model.ReviewBook;
 import com.maliha.miniproject.service.ReviewBookService;
@@ -16,8 +17,8 @@ public class ReviewBookController {
     @Autowired
     ReviewBookService reviewBookService;
     @GetMapping("/{bookId}/reviews")
-    public ResponseEntity<List<ReviewBook>> getReview(@PathVariable Integer bookId){
-        return new ResponseEntity<List<ReviewBook>>(reviewBookService.getReviews(bookId), HttpStatus.ACCEPTED);
+    public ResponseEntity<List<ReviewBookEntity>> getReview(@PathVariable Integer bookId){
+        return new ResponseEntity<List<ReviewBookEntity>>(reviewBookService.getReviews(bookId), HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/{bookId}/reviews/create")
